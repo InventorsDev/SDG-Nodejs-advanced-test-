@@ -73,7 +73,7 @@ describe('TASK API', () => {
   });
 
   describe('Mark task as completed /tasks/:id/completed', () => {
-    it('should update task status as completed', async (done) => {
+    it('should update task status as completed', async () => {
       const res = await request(app).patch(`/api/tasks/${response.body._id}/completed`).send({});
       expect(res.status).toBe(200);
       expect(res.body.status).toEqual("completed");
