@@ -16,14 +16,50 @@ const createTask = async (req, res) => {
 
 const getTask = async (req, res) => {
     const query = req.query;        
-    const data = await Task.find();
+    const data = await Task.find().select({"description":1, "dueDate":1, "status": 1, "title": 1, "_id": 0});
+    const b_data = JSON.parse(JSON.stringify(data));
+    let converted = []
+
+    b_data.forEach((newItem) => {
+        if (newItem.dueDate) {
+            const date = new Date(newItem.dueDate)
+            const ndate = date.toISOString().substring(0, 10);           
+            newItem.dueDate = ndate
+        }
+        converted.push(newItem);
+      });
+
 
    if(Object.keys(query).length < 1){
-        return res.status(200).json(data)
+        return res.status(200).json(converted)
    }
    
-   console(Object.keys(query).length)
+   const filterBy = Object.keys(query)[0];
+   let filteredTasks = converted;
+
+   switch (filterBy) {
+    case "dueDate":
+
+        filteredTasks = filteredTasks.filter(task => task.dueDate === query[filterBy]);
+
+        break;
+    
+    case "status":
+
+        filteredTasks = filteredTasks.filter(task => task.status === query[filterBy]);
+
+        break;
+
+    case "title":
+        filteredTasks = filteredTasks.filter(task => task.title.includes(query[filterBy]));
+        break;
    
+    default:
+
+        break;
+   }
+
+   return res.status(200).json(filteredTasks)
 
 }
 
@@ -82,22 +118,20 @@ const deleteTask  = async (req, res) => {
 
 const markTaskAsCompleted = async (req, res) => {
     const _id = req.params.id;
-    const data = await Task.findOne({_id});
-
-    if(data == null){
-        return res.status(404).json({
-            status: "failed",
-            message: 'Task not found.'
-        })
-    }
-
-    data.status = "completed";
-    data.save();
-
-    return res.status(200).json({ status: "successful", message: 'Task updated successfully.' });
-
-
-}
+  
+    const data = await Task.findOneAndUpdate(
+      { _id },
+      { $set: { status: "completed" } },
+      { new: true }
+    );
+  
+    await data.save();
+  
+    return res
+      .status(200)
+      .json(data);
+};
+  
 
 
 
