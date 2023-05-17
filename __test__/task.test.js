@@ -14,7 +14,6 @@ describe('TASK API', () => {
 
     const initTask = { title: 'New TASK Item', description: 'Adding a new task item' };
     response = await request(app).post('/api/tasks').send(initTask);
-    
   });
   
   afterAll(async () => {
@@ -43,7 +42,6 @@ describe('TASK API', () => {
       expect(res.body).toEqual(
         expect.objectContaining({ title: 'New TASK Item', description: 'Adding a new task item'  }),
       );
-      
     });
   });
 
@@ -53,7 +51,6 @@ describe('TASK API', () => {
       const res = await request(app).post('/api/tasks').send(task);
       expect(res.status).toBe(201);
       expect(res.body).toMatchObject(task);
-      
     });
   });
 
@@ -63,7 +60,6 @@ describe('TASK API', () => {
       const res = await request(app).patch(`/api/tasks/${response.body._id}`).send(task);
       expect(res.status).toBe(200);
       expect(res.body).toMatchObject(task);
-      
     });
   });
 
@@ -77,8 +73,8 @@ describe('TASK API', () => {
   });
 
   describe('Mark task as completed /tasks/:id/completed', () => {
-    it('should update task status as completed', async () => {
-      const res = await request(app).post(`/api/tasks/${response.body._id}/completed`).send(data);
+    it('should update task status as completed', async (done) => {
+      const res = await request(app).patch(`/api/tasks/${response.body._id}/completed`).send({});
       expect(res.status).toBe(200);
       expect(res.body.status).toEqual("completed");
       
