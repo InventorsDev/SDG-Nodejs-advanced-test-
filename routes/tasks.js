@@ -1,35 +1,31 @@
 const express = require('express');
 const router = express.Router();
-const Task = require('../models/task'); 
+const {
+    createTask,
+    getTask,
+    getOneTask,
+    updateTask,
+    deleteTask,
+    markTaskAsCompleted
+} = require("../controllers/taskController");
+
 
 //retrieve all tasks
-router.get('/', (req, res) => {
-    
-});
+router.get('/', getTask);
 
 //create task
-router.post('/', (req, res) => {
-    
-});
+router.post('/', createTask);
 
 //get task
-router.get('/:id', (req, res) => {
-    
-});
+router.get('/:id', getOneTask);
 
 //update task
-router.patch('/:id', (req, res) => {
-    
-});
+router.patch('/:id', updateTask);
 
 //delete task
-router.delete('/:id', (req, res) => {
-    
-});
+router.delete('/:id', deleteTask);
 
 // Mark task as aompleted
-router.patch('/:id/completed', (req, res) => {
-    
-});
+router.patch('/:id/completed', markTaskAsCompleted);
 
 module.exports = router;
