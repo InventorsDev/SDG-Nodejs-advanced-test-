@@ -20,6 +20,7 @@ describe('TASK API', () => {
     await mongoServer.stop();
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
+    app.close();
   });
 
   describe('Retrieve all Task /tasks', () => {
