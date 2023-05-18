@@ -19,7 +19,7 @@ let server = app.listen(port, () => {
 });
 
 function connectDB() {
-    mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/test")
+    mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/test")
         .then(() => {
             const db = mongoose.connection;
             db.on('error', (err) => console.error(err));
@@ -29,3 +29,4 @@ function connectDB() {
 }
 
 module.exports = server
+
