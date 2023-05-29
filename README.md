@@ -76,6 +76,7 @@ Tests have been provided to ensure that the API endpoints function correctly. To
 - Run `npm install` to install the project dependencies.
 - Run `npm test` to run the tests.
 ## Contributors
+emmanuelonyo34@gmail.com
 [Owoputi Kehinde](https://github.com/sirkenedy)
 
 License
